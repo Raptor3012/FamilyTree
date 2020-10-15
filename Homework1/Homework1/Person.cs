@@ -1,107 +1,127 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Numerics;
 
 namespace Homework1
 {
     partial class Person
     {
-        public string name { get; }
-        public string sex { get; }
-        public Person parent_1 { set; get; }
-        public Person parent_2 { set; get; }
-        public Person partner { set; get; }
-        public List<Person> childrens = new List<Person>();
+        public string Name { get; }
+        public Gender Gender { get; }
+        public Person[] Parents = new Person[2];
+        public Person Partner { get; }
+        public List<Person> Childrens = new List<Person>();
 
-        public Person(string name, string sex)
+        public Person(string name, Gender gender)
         {
-            this.name = name;
-            this.sex = sex;
+            this.Name = name;
+            this.Gender = gender;
         }
-        public Person(string name, string sex,Person parent_1, Person parent_2)
+
+        public Person(string name, Gender gender, Person parent_1, Person parent_2)
         {
-            this.name = name;
-            this.sex = sex;
-            this.parent_1 = parent_1;
-            this.parent_2 = parent_2;
+            this.Name = name;
+            this.Gender = gender;
+            this.Parents[0] = parent_1;
+            this.Parents[1] = parent_2;
         }
-        public Person(string name, string sex, Person parent_1, Person parent_2, Person partner)
+
+        public Person(string name, Gender gender, Person parent_1, Person parent_2, Person partner)
         {
-            this.name = name;
-            this.sex = sex;
-            this.parent_1 = parent_1;
-            this.parent_2 = parent_2;
-            this.partner = partner;
+            this.Name = name;
+            this.Gender = gender;
+            this.Parents[0] = parent_1;
+            this.Parents[1] = parent_2;
+            this.Partner = partner;
         }
-        public void PrintParent(Person parent)
+
+        public void SetChildren(Person children)
         {
-            switch (parent.sex)
-            {
-                case "F":
-                    Console.WriteLine("Mather: " + parent.name);
-                    break;
-                case "M":
-                    Console.WriteLine("Father: " + parent.name);
-                    break;
-                default:
-                    break;
-            }
+            this.Childrens.Add(children);
         }
+
         public void PrintParents()
         {
-            if (this.parent_1 != null && this.parent_2 != null)
+            if (this.Parents[0] != null || this.Parents[1] != null)
             {
-                PrintParent(this.parent_1);
-                PrintParent(this.parent_2);
-            }
-            else Console.WriteLine("No set parents"); 
-        }
-        public void PrintUncle()
-        {
-            Console.WriteLine("Uncle:");
-            foreach (Person person in this.parent_2.parent_1.childrens)
-            {
-                if (person != this.parent_1 && person != this.parent_2)
-                    Console.WriteLine(person.name);
-            }
-            foreach (Person person in this.parent_1.parent_1.childrens)
-            {
-                if (person != this.parent_1 && person != this.parent_2)
-                    Console.WriteLine(person.name);
-            }
-        }
-        public void PrintCousin()
-        {
-            Console.WriteLine("Cousin:");
-            foreach (Person uncle in this.parent_2.parent_1.childrens)
-            {
-                if (uncle != this.parent_1 && uncle != this.parent_2)
+                foreach (Person parent in this.Parents)
                 {
-                    foreach(Person cousin in uncle.childrens)
+                    switch (parent.Gender)
                     {
-                        Console.WriteLine(cousin.name);
+                        case Gender.Female:
+                            Console.WriteLine("Mather: " + parent.Name);
+                            break;
+                        case Gender.Male:
+                            Console.WriteLine("Father: " + parent.Name);
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
-            foreach (Person uncle in this.parent_1.parent_1.childrens)
+            else { Console.WriteLine("Not Set Parents"); }    
+        }
+
+        public Person[] GetParents()
+        {        
+            return Parents;            
+        }
+       
+        public HashSet<Person> GetUncles()
+        {
+            HashSet<Person> Temp = new HashSet<Person>();
+            foreach (Person parent in this.Parents)
             {
-                if (uncle != this.parent_1 && uncle != this.parent_2)
+                foreach(Person ancestor in parent.Parents)
                 {
-                    foreach (Person cousin in uncle.childrens)
-                    {
-                        Console.WriteLine(cousin.name);
-                    }
+                    Temp.UnionWith(ancestor.Childrens);
                 }
             }
-        }
-        public void PrintInLavs()
-        {
-            Console.WriteLine("In-laws:");
-            Console.WriteLine(this.partner.parent_1.name);
-            Console.WriteLine(this.partner.parent_2.name);
+            Temp.ExceptWith(this.Parents);
+            return Temp;
         }
 
 
+        //public void PrintCousin()
+        //{
+        //    Console.WriteLine("Cousin:");
+        //    foreach (Person uncle in this.parent_2.parent_1.childrens)
+        //    {
+        //        if (uncle != this.parent_1 && uncle != this.parent_2)
+        //        {
+        //            foreach(Person cousin in uncle.childrens)
+        //            {
+        //                Console.WriteLine(cousin.name);
+        //            }
+        //        }
+        //    }
+        //    foreach (Person uncle in this.parent_1.parent_1.childrens)
+        //    {
+        //        if (uncle != this.parent_1 && uncle != this.parent_2)
+        //        {
+        //            foreach (Person cousin in uncle.childrens)
+        //            {
+        //                Console.WriteLine(cousin.name);
+        //            }
+        //        }
+        //    }
+        //}
+        //public void PrintInLavs()
+        //{
+        //    Console.WriteLine("In-laws:");
+        //    Console.WriteLine(this.partner.parent_1.name);
+        //    Console.WriteLine(this.partner.parent_2.name);
+        //}
+
+        
+
+
+    }
+    enum Gender
+    {
+        Female,
+        Male
     }
 }

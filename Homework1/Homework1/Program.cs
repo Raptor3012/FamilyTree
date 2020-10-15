@@ -8,58 +8,61 @@ namespace Homework1
     {
         static void Main(string[] args)
         {
-            Person Maria = new Person("Maria", "F");
-            Person Mihail = new Person("Mihail", "M");
-            Maria.partner = Mihail;
-            Mihail.partner = Maria;
+            Person Maria = new Person("Maria", Gender.Female);
+            Person Mihail = new Person("Mihail", Gender.Male);
+            //Maria.partner = Mihail;
+            //Mihail.partner = Maria;
 
-            Person Sergey = new Person("Sergey", "M");
-            Person Valentina = new Person("Valentina", "F");
-            Sergey.partner = Valentina;
-            Valentina.partner = Sergey;
+            Person Sergey = new Person("Sergey", Gender.Male);
+            Person Valentina = new Person("Valentina", Gender.Female);
+            //Sergey.partner = Valentina;
+            //Valentina.partner = Sergey;
 
-            Person Sveta = new Person("Svetlana", "F", Maria, Mihail);
-            Person Andrey = new Person("Andrey", "M", Sergey, Valentina, Sveta);
-            Sveta.partner = Andrey;
+            Person Sveta = new Person("Svetlana", Gender.Female, Maria, Mihail);
+            Person Andrey = new Person("Andrey", Gender.Male, Sergey, Valentina, Sveta);
+            //Sveta.partner = Andrey;
 
-            Person Alex = new Person("Alex", "F", Sveta, Andrey);
+            Person Alex = new Person("Alex", Gender.Female, Sveta, Andrey);
 
-            Person Anton = new Person("Anton", "M", Sergey, Valentina);
-            Person Nastia = new Person("Nastia", "F", Sergey, Valentina);
+            Person Anton = new Person("Anton", Gender.Male, Sergey, Valentina);
+            Person Nastia = new Person("Nastia", Gender.Female, Sergey, Valentina);
 
-            Person Dima = new Person("Dima", "M");
-            Dima.partner = Nastia;
-            Person Misha = new Person("Misha", "M", Dima, Nastia);
+            Person Dima = new Person("Dima", Gender.Male);
+            //Dima.partner = Nastia;
+            Person Misha = new Person("Misha", Gender.Male, Dima, Nastia);
 
-            Maria.childrens.Add(Sveta);
-            Mihail.childrens.Add(Sveta);
-            Sveta.childrens.Add(Alex);
-            Andrey.childrens.Add(Alex);
-            Sergey.childrens.Add(Andrey);
-            Sergey.childrens.Add(Anton);
-            Sergey.childrens.Add(Nastia);
-            Valentina.childrens.Add(Andrey);
-            Valentina.childrens.Add(Anton);
-            Valentina.childrens.Add(Nastia);
-            Nastia.childrens.Add(Misha);
-            Dima.childrens.Add(Misha);
-
+            Maria.Childrens.Add(Sveta);
+            Mihail.Childrens.Add(Sveta);
+            Sveta.Childrens.Add(Alex);
+            Andrey.Childrens.Add(Alex);
+            Sergey.Childrens.Add(Andrey);
+            Sergey.Childrens.Add(Anton);
+            Sergey.Childrens.Add(Nastia);
+            Valentina.Childrens.Add(Andrey);
+            Valentina.Childrens.Add(Anton);
+            Valentina.Childrens.Add(Nastia);
+            Nastia.Childrens.Add(Misha);
+            Dima.Childrens.Add(Misha);
+      
             
-            Console.WriteLine("Person:" + Alex.name);
+            Console.WriteLine("Person:" + Alex.Name);
             Alex.PrintParents();
             Console.WriteLine('\n');
 
-            Console.WriteLine("Person:" + Maria.name);
+            Console.WriteLine("Person:" + Maria.Name);
             Maria.PrintParents();
             Console.WriteLine('\n');
-            
-            Console.WriteLine("Person:" + Alex.name);
-            Alex.PrintUncle();            
-            Alex.PrintCousin();
+
+            Console.WriteLine("Person:" + Alex.Name);
+            foreach(Person person in  Alex.GetUncles())
+            {
+                Console.WriteLine(person.Name);
+            }
+            //Alex.PrintCousin();
             Console.WriteLine('\n');
 
-            Console.WriteLine("Person:" + Andrey.name);
-            Andrey.PrintInLavs();
+            //Console.WriteLine("Person:" + Andrey.name);
+            //Andrey.PrintInLavs();
         }
 
     }
