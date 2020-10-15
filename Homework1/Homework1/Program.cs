@@ -10,17 +10,17 @@ namespace Homework1
         {
             Person Maria = new Person("Maria", Gender.Female);
             Person Mihail = new Person("Mihail", Gender.Male);
-            //Maria.partner = Mihail;
-            //Mihail.partner = Maria;
+            Maria.SetPartner(Mihail);
+            Mihail.SetPartner(Maria);
 
             Person Sergey = new Person("Sergey", Gender.Male);
             Person Valentina = new Person("Valentina", Gender.Female);
-            //Sergey.partner = Valentina;
-            //Valentina.partner = Sergey;
+            Sergey.SetPartner(Valentina);
+            Valentina.SetPartner(Sergey);
 
             Person Sveta = new Person("Svetlana", Gender.Female, Maria, Mihail);
             Person Andrey = new Person("Andrey", Gender.Male, Sergey, Valentina, Sveta);
-            //Sveta.partner = Andrey;
+            Sveta.SetPartner(Andrey);
 
             Person Alex = new Person("Alex", Gender.Female, Sveta, Andrey);
 
@@ -28,35 +28,39 @@ namespace Homework1
             Person Nastia = new Person("Nastia", Gender.Female, Sergey, Valentina);
 
             Person Dima = new Person("Dima", Gender.Male);
-            //Dima.partner = Nastia;
+            Dima.SetPartner(Nastia);
             Person Misha = new Person("Misha", Gender.Male, Dima, Nastia);
 
-            Maria.Childrens.Add(Sveta);
-            Mihail.Childrens.Add(Sveta);
-            Sveta.Childrens.Add(Alex);
-            Andrey.Childrens.Add(Alex);
-            Sergey.Childrens.Add(Andrey);
-            Sergey.Childrens.Add(Anton);
-            Sergey.Childrens.Add(Nastia);
-            Valentina.Childrens.Add(Andrey);
-            Valentina.Childrens.Add(Anton);
-            Valentina.Childrens.Add(Nastia);
-            Nastia.Childrens.Add(Misha);
-            Dima.Childrens.Add(Misha);
+            Maria.SetChildren(Sveta);
+            Mihail.SetChildren(Sveta);
+            Sveta.SetChildren(Alex);
+            Andrey.SetChildren(Alex);
+            Sergey.SetChildren(Andrey);
+            Sergey.SetChildren(Anton);
+            Sergey.SetChildren(Nastia);
+            Valentina.SetChildren(Andrey);
+            Valentina.SetChildren(Anton);
+            Valentina.SetChildren(Nastia);
+            Nastia.SetChildren(Misha);
+            Dima.SetChildren(Misha);
       
             
-            Console.WriteLine("Person:" + Alex.Name);
+            Console.WriteLine("Person:" + Alex.GetName());
             Alex.PrintParents();
             Console.WriteLine('\n');
 
-            Console.WriteLine("Person:" + Maria.Name);
+            Console.WriteLine("Person:" + Maria.GetName());
             Maria.PrintParents();
             Console.WriteLine('\n');
 
-            Console.WriteLine("Person:" + Alex.Name);
+            Console.WriteLine("Person:" + Maria.GetName());
+            Maria.GetParents();
+            Console.WriteLine('\n');
+
+            Console.WriteLine("Person:" + Alex.GetName());
             foreach(Person person in  Alex.GetUncles())
             {
-                Console.WriteLine(person.Name);
+                Console.WriteLine(person.GetName());
             }
             //Alex.PrintCousin();
             Console.WriteLine('\n');
