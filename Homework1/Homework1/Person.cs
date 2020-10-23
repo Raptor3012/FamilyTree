@@ -12,7 +12,7 @@ namespace Homework1
         private Gender Gender;
         private Person[] Parents = new Person[2];
         private Person Partner;
-        private List<Person> Childrens = new List<Person>();
+        private HashSet<Person> Childrens = new HashSet<Person>();
 
         public Person(string name, Gender gender)
         {
@@ -25,6 +25,7 @@ namespace Homework1
             this.Name = name;
             this.Gender = gender;
             this.SetParents(parent_1, parent_2);
+            parent_1.SetChildren(this);
         }
 
         public Person(string name, Gender gender, Person parent_1, Person parent_2, Person partner)
@@ -33,6 +34,7 @@ namespace Homework1
             this.Gender = gender;
             this.SetParents(parent_1, parent_2);
             this.SetPartner(partner);
+            parent_1.SetChildren(this);
         }
 
         public void SetParents(Person parent_1,Person parent_2)
@@ -46,20 +48,32 @@ namespace Homework1
 
         public void SetChildren(Person children)
         {
-            if (this != children)
+            if (this != children & this.Parents[0] != children & this.Parents[1] != children)
+            {
                 this.Childrens.Add(children);
+                if (this.Partner != null)
+                {
+                    this.Partner.Childrens.Add(children);
+                }
+            }
+                
         }
 
         public void SetPartner(Person partner)
         {
             if(this != partner)
-                this.Partner = partner;            
+            {
+                this.Partner = partner;
+                partner.Partner = this;
+            }
+                            
         }
 
         public string GetName()
         {
             return this.Name;
         }
+
         public Person[] GetParents()
         {
             return Parents;
@@ -67,16 +81,39 @@ namespace Homework1
 
         public HashSet<Person> GetUncles()
         {
-            HashSet<Person> listParents = new HashSet<Person>();
+            HashSet<Person> listUncles = new HashSet<Person>();
             foreach (Person parent in this.Parents)
             {
                 foreach (Person ancestor in parent.Parents)
                 {
-                    listParents.UnionWith(ancestor.Childrens);
+                    listUncles.UnionWith(ancestor.Childrens);
                 }
             }
-            listParents.ExceptWith(this.Parents);
-            return listParents;
+            listUncles.ExceptWith(this.Parents);
+            return listUncles;
+        }
+
+        public HashSet<Person> GetCousins()
+        {
+            HashSet<Person> listCousins = new HashSet<Person>();
+            foreach (Person parent in this.Parents)
+            {
+                foreach (Person ancestor in parent.Parents)
+                {
+                    foreach(Person uncle in ancestor.Childrens)
+                    {
+                        listCousins.UnionWith(uncle.Childrens);
+                    }
+                    
+                }
+            }
+            listCousins.Remove(this);
+            return listCousins;
+        }
+
+        public Person[] GetInLavs()
+        {
+            return this.Partner.GetParents();
         }
 
         public void PrintParents()
@@ -98,60 +135,8 @@ namespace Homework1
                     }
                 }
             }
-            else { Console.WriteLine("Not Set Parents"); }    
+            else { Console.WriteLine("Not Set Parents"); }
         }
-
-        public HashSet<Person> GetCousins()
-        {
-            HashSet<Person> listCousins = new HashSet<Person>();
-            foreach (Person parent in this.Parents)
-            {
-                foreach (Person ancestor in parent.Parents)
-                {
-                    foreach(Person uncle in ancestor.Childrens)
-                    {
-                        listCousins.UnionWith(uncle.Childrens);
-                    }
-                    
-                }
-            }
-            listCousins.ExceptWith(this.Parents);
-            return listCousins;
-        }
-
-
-
-
-        //public void PrintCousin()
-        //{
-        //    Console.WriteLine("Cousin:");
-        //    foreach (Person uncle in this.parent_2.parent_1.childrens)
-        //    {
-        //        if (uncle != this.parent_1 && uncle != this.parent_2)
-        //        {
-        //            foreach(Person cousin in uncle.childrens)
-        //            {
-        //                Console.WriteLine(cousin.name);
-        //            }
-        //        }
-        //    }
-        //    foreach (Person uncle in this.parent_1.parent_1.childrens)
-        //    {
-        //        if (uncle != this.parent_1 && uncle != this.parent_2)
-        //        {
-        //            foreach (Person cousin in uncle.childrens)
-        //            {
-        //                Console.WriteLine(cousin.name);
-        //            }
-        //        }
-        //    }
-        //}
-        //public void PrintInLavs()
-        //{
-        //    Console.WriteLine("In-laws:");
-        //    Console.WriteLine(this.partner.parent_1.name);
-        //    Console.WriteLine(this.partner.parent_2.name);
-        //} 
     }
     enum Gender
     {
