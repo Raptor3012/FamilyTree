@@ -8,58 +8,74 @@ namespace Homework1
     {
         static void Main(string[] args)
         {
-            Person Maria = new Person("Maria", "F");
-            Person Mihail = new Person("Mihail", "M");
-            Maria.partner = Mihail;
-            Mihail.partner = Maria;
+            Person Maria = new Person("Maria", Gender.Female);
+            Person Mihail = new Person("Mihail", Gender.Male);
+            Maria.SetPartner(Mihail);
+            //Mihail.SetPartner(Maria);
 
-            Person Sergey = new Person("Sergey", "M");
-            Person Valentina = new Person("Valentina", "F");
-            Sergey.partner = Valentina;
-            Valentina.partner = Sergey;
+            Person Sergey = new Person("Sergey", Gender.Male);
+            Person Valentina = new Person("Valentina", Gender.Female);
+            Sergey.SetPartner(Valentina);
+            //Valentina.SetPartner(Sergey);
 
-            Person Sveta = new Person("Svetlana", "F", Maria, Mihail);
-            Person Andrey = new Person("Andrey", "M", Sergey, Valentina, Sveta);
-            Sveta.partner = Andrey;
+            Person Sveta = new Person("Svetlana", Gender.Female, Maria, Mihail);
+            Person Andrey = new Person("Andrey", Gender.Male, Sergey, Valentina, Sveta);
+            //Sveta.SetPartner(Andrey);
 
-            Person Alex = new Person("Alex", "F", Sveta, Andrey);
+            Person Alex = new Person("Alex", Gender.Female, Sveta, Andrey);
 
-            Person Anton = new Person("Anton", "M", Sergey, Valentina);
-            Person Nastia = new Person("Nastia", "F", Sergey, Valentina);
+            Person Anton = new Person("Anton", Gender.Male, Sergey, Valentina);
+            Person Nastia = new Person("Nastia", Gender.Female, Sergey, Valentina);
 
-            Person Dima = new Person("Dima", "M");
-            Dima.partner = Nastia;
-            Person Misha = new Person("Misha", "M", Dima, Nastia);
+            Person Dima = new Person("Dima", Gender.Male);
+            Dima.SetPartner(Nastia);
+            Person Misha = new Person("Misha", Gender.Male, Dima, Nastia);
 
-            Maria.childrens.Add(Sveta);
-            Mihail.childrens.Add(Sveta);
-            Sveta.childrens.Add(Alex);
-            Andrey.childrens.Add(Alex);
-            Sergey.childrens.Add(Andrey);
-            Sergey.childrens.Add(Anton);
-            Sergey.childrens.Add(Nastia);
-            Valentina.childrens.Add(Andrey);
-            Valentina.childrens.Add(Anton);
-            Valentina.childrens.Add(Nastia);
-            Nastia.childrens.Add(Misha);
-            Dima.childrens.Add(Misha);
-
+            //Maria.SetChildren(Sveta);
+            ////Mihail.SetChildren(Sveta);
+            //Sveta.SetChildren(Alex);
+            ////Andrey.SetChildren(Alex);
+            //Sergey.SetChildren(Andrey);
+            //Sergey.SetChildren(Anton);
+            //Sergey.SetChildren(Nastia);
+            ////Valentina.SetChildren(Andrey);
+            ////Valentina.SetChildren(Anton);
+            ////Valentina.SetChildren(Nastia);
+            //Nastia.SetChildren(Misha);
+            ////Dima.SetChildren(Misha);
+      
             
-            Console.WriteLine("Person:" + Alex.name);
+            Console.WriteLine("Person:" + Alex.GetName());
             Alex.PrintParents();
             Console.WriteLine('\n');
 
-            Console.WriteLine("Person:" + Maria.name);
+            Console.WriteLine("Person:" + Maria.GetName());
             Maria.PrintParents();
             Console.WriteLine('\n');
-            
-            Console.WriteLine("Person:" + Alex.name);
-            Alex.PrintUncle();            
-            Alex.PrintCousin();
+
+            //Проверка GetUncles()
+            Console.WriteLine("Person:" + Alex.GetName());
+            foreach(Person person in  Alex.GetUncles())
+            {
+                Console.WriteLine(person.GetName());
+            }
+            //Alex.PrintCousin();
             Console.WriteLine('\n');
 
-            Console.WriteLine("Person:" + Andrey.name);
-            Andrey.PrintInLavs();
+            //Проверка GetCousins()
+            Console.WriteLine("Person:" + Alex.GetName());
+            foreach (Person person in Alex.GetCousins())
+            {
+                Console.WriteLine(person.GetName());
+            }
+            Console.WriteLine('\n');
+
+            //Проверка GetInLavs()
+            Console.WriteLine("Person:" + Andrey.GetName());
+            foreach (Person person in Andrey.GetInLavs())
+            {
+                Console.WriteLine(person.GetName());
+            }            
         }
 
     }
