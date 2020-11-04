@@ -75,7 +75,13 @@ namespace Homework1
             foreach (Person person in Andrey.GetInLavs())
             {
                 Console.WriteLine(person.GetName());
-            }            
+            }
+
+            Person Dimaaaa = new Person("Dima", Gender.Male);
+            Dimaaaa.GetCousins();
+            Dimaaaa.GetParents();
+            Dimaaaa.GetUncles();
+            Dimaaaa.GetInLavs();
         }
 
     }

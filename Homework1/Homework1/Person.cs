@@ -39,11 +39,16 @@ namespace Homework1
 
         public void SetParents(Person parent_1,Person parent_2)
         {
-            if(this != parent_1 & this != parent_2 & parent_1 != parent_2)
+            if(this.Parents[0] == null & this.Parents[1] == null)
             {
-                this.Parents[0] = parent_1;
-                this.Parents[1] = parent_2;
-            }
+                if (this != parent_1 & this != parent_2 & parent_1 != parent_2)
+                {
+                    this.Parents[0] = parent_1;
+                    this.Parents[1] = parent_2;
+                    parent_1.SetChildren(this);
+                    
+                }
+            }            
         }
 
         public void SetChildren(Person children)
@@ -61,7 +66,7 @@ namespace Homework1
 
         public void SetPartner(Person partner)
         {
-            if(this != partner)
+            if(this != partner & partner.Partner == null & this.Partner == null)
             {
                 this.Partner = partner;
                 partner.Partner = this;
@@ -71,12 +76,16 @@ namespace Homework1
 
         public string GetName()
         {
-            return this.Name;
+            String name = this.Name;
+            return name;
         }
 
         public Person[] GetParents()
         {
-            return Parents;
+            Person[] parents = new Person[2];
+            parents[0] = this.Parents[0];
+            parents[1] = this.Parents[1];
+            return parents;
         }
 
         public HashSet<Person> GetUncles()
@@ -84,12 +93,21 @@ namespace Homework1
             HashSet<Person> listUncles = new HashSet<Person>();
             foreach (Person parent in this.Parents)
             {
+                if (parent == null) continue;
                 foreach (Person ancestor in parent.Parents)
                 {
+                    if (ancestor == null) continue;
                     listUncles.UnionWith(ancestor.Childrens);
                 }
             }
             listUncles.ExceptWith(this.Parents);
+            HashSet<Person> listUnclesPartner = new HashSet<Person>();
+            foreach (var uncle in listUncles)
+            {
+                if (uncle.Partner != null)
+                    listUnclesPartner.Add(uncle.Partner);
+            }
+            listUncles.UnionWith(listUnclesPartner);
             return listUncles;
         }
 
@@ -98,10 +116,13 @@ namespace Homework1
             HashSet<Person> listCousins = new HashSet<Person>();
             foreach (Person parent in this.Parents)
             {
+                if (parent == null) continue;
                 foreach (Person ancestor in parent.Parents)
                 {
-                    foreach(Person uncle in ancestor.Childrens)
+                    if (ancestor == null) continue;
+                    foreach (Person uncle in ancestor.Childrens)
                     {
+                        if (uncle == null) continue;
                         listCousins.UnionWith(uncle.Childrens);
                     }
                     
@@ -113,6 +134,8 @@ namespace Homework1
 
         public Person[] GetInLavs()
         {
+            if (this.Partner == null)
+                return new Person[2];
             return this.Partner.GetParents();
         }
 
