@@ -39,9 +39,9 @@ namespace Homework1
 
         public void SetParents(Person parent_1,Person parent_2)
         {
-            if(this.Parents[0] == null & this.Parents[1] == null)
+            if(this.Parents[0] == null && this.Parents[1] == null)
             {
-                if (this != parent_1 & this != parent_2 & parent_1 != parent_2)
+                if (this != parent_1 && this != parent_2 && parent_1 != parent_2 && parent_1.Partner == parent_2 && parent_2.Partner == parent_1)
                 {
                     this.Parents[0] = parent_1;
                     this.Parents[1] = parent_2;
@@ -53,7 +53,7 @@ namespace Homework1
 
         public void SetChildren(Person children)
         {
-            if (this != children & this.Parents[0] != children & this.Parents[1] != children)
+            if (this != children && this.Parents[0] != children && this.Parents[1] != children)
             {
                 this.Childrens.Add(children);
                 if (this.Partner != null)
@@ -66,7 +66,7 @@ namespace Homework1
 
         public void SetPartner(Person partner)
         {
-            if(this != partner & partner.Partner == null & this.Partner == null)
+            if(this != partner && partner.Partner == null && this.Partner == null)
             {
                 this.Partner = partner;
                 partner.Partner = this;
@@ -86,6 +86,16 @@ namespace Homework1
             parents[0] = this.Parents[0];
             parents[1] = this.Parents[1];
             return parents;
+        }
+
+        public HashSet<Person> GetAllRelatives()
+        {
+            HashSet<Person> listRelatives = new HashSet<Person>();
+
+
+
+
+            return listRelatives;
         }
 
         public HashSet<Person> GetUncles()
