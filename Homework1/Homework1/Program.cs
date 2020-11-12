@@ -82,6 +82,21 @@ namespace Homework1
             Dimaaaa.GetParents();
             Dimaaaa.GetUncles();
             Dimaaaa.GetInLavs();
+
+            Person Alex_1 = new Person("Alex_1 ", Gender.Male);
+
+            Person Sergey_1 = new Person("Sergey_1", Gender.Male);
+            Person Valentina_1 = new Person("Valentina_1", Gender.Female);
+
+            Alex_1.SetChildren(Sergey_1);
+            Alex_1.SetChildren(Valentina_1);
+
+            Person Sergey_2 = new Person("Sergey_2", Gender.Male);
+            Person Valentina_2 = new Person("Valentina_2", Gender.Female);
+            Valentina_2.SetPartner(Sergey_2);
+            Sergey_1.SetChildren(Sergey_2);
+
+            Alex_1.SetParents(Sergey_2, Valentina_2);
         }
 
     }

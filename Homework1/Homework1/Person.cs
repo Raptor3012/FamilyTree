@@ -43,12 +43,28 @@ namespace Homework1
             {
                 if (this != parent_1 && this != parent_2 && parent_1 != parent_2 && parent_1.Partner == parent_2 && parent_2.Partner == parent_1)
                 {
-                    this.Parents[0] = parent_1;
-                    this.Parents[1] = parent_2;
-                    parent_1.SetChildren(this);
-                    
+                    var list = GetDownTree(this.Childrens);
+                    if ( !list.Contains(parent_1) && !list.Contains(parent_2))
+                    {
+                        this.Parents[0] = parent_1;
+                        this.Parents[1] = parent_2;
+                        parent_1.SetChildren(this);
+                    }    
                 }
             }            
+        }
+       
+        public HashSet<Person> GetDownTree(HashSet<Person> childrens)
+        {
+            HashSet<Person> listchildrens = new HashSet<Person>();
+            foreach (var obj in childrens)
+            {
+                listchildrens.UnionWith(obj.Childrens);
+            }
+            if(listchildrens.Count != 0)
+                listchildrens.UnionWith(GetDownTree(listchildrens));
+            
+            return listchildrens;                     
         }
 
         public void SetChildren(Person children)
@@ -60,8 +76,15 @@ namespace Homework1
                 {
                     this.Partner.Childrens.Add(children);
                 }
-            }
-                
+            }      
+        }
+
+        public HashSet<Person> GetUpTree(Person[] parents)
+        {
+            HashSet<Person> listchildrens = new HashSet<Person>();
+            listchildrens.Add
+
+            return listchildrens;
         }
 
         public void SetPartner(Person partner)
@@ -88,14 +111,10 @@ namespace Homework1
             return parents;
         }
 
-        public HashSet<Person> GetAllRelatives()
+        public HashSet<Person> GetChildrens()
         {
-            HashSet<Person> listRelatives = new HashSet<Person>();
-
-
-
-
-            return listRelatives;
+            HashSet<Person> listchildrens = this.Childrens;
+            return listchildrens;
         }
 
         public HashSet<Person> GetUncles()
