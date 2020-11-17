@@ -71,20 +71,35 @@ namespace Homework1
         {
             if (this != children && this.Parents[0] != children && this.Parents[1] != children)
             {
-                this.Childrens.Add(children);
-                if (this.Partner != null)
+                var list = GetUpTree(this.Parents);
+                if (!list.Contains(children))
                 {
-                    this.Partner.Childrens.Add(children);
-                }
+                    this.Childrens.Add(children);
+                    if (this.Partner != null)
+                    {
+                        this.Partner.Childrens.Add(children);
+                    }
+                }                    
             }      
         }
 
         public HashSet<Person> GetUpTree(Person[] parents)
         {
-            HashSet<Person> listchildrens = new HashSet<Person>();
-            listchildrens.Add
-
-            return listchildrens;
+            HashSet<Person> listPerson = new HashSet<Person>();
+            if(parents[0] != null || parents[1] != null)
+            {
+                listPerson.UnionWith(GetUpTree(parents[0].GetParents()));
+                listPerson.UnionWith(GetUpTree(parents[1].GetParents()));
+            }
+            if(parents[0] != null)
+            {
+                listPerson.Add(parents[0]);
+            }
+            if(parents[1] != null)
+            {
+                listPerson.Add(parents[1]);
+            } 
+            return listPerson;
         }
 
         public void SetPartner(Person partner)

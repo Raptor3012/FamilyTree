@@ -11,16 +11,13 @@ namespace Homework1
             Person Maria = new Person("Maria", Gender.Female);
             Person Mihail = new Person("Mihail", Gender.Male);
             Maria.SetPartner(Mihail);
-            //Mihail.SetPartner(Maria);
 
             Person Sergey = new Person("Sergey", Gender.Male);
             Person Valentina = new Person("Valentina", Gender.Female);
             Sergey.SetPartner(Valentina);
-            //Valentina.SetPartner(Sergey);
 
             Person Sveta = new Person("Svetlana", Gender.Female, Maria, Mihail);
             Person Andrey = new Person("Andrey", Gender.Male, Sergey, Valentina, Sveta);
-            //Sveta.SetPartner(Andrey);
 
             Person Alex = new Person("Alex", Gender.Female, Sveta, Andrey);
 
@@ -30,21 +27,7 @@ namespace Homework1
             Person Dima = new Person("Dima", Gender.Male);
             Dima.SetPartner(Nastia);
             Person Misha = new Person("Misha", Gender.Male, Dima, Nastia);
-
-            //Maria.SetChildren(Sveta);
-            ////Mihail.SetChildren(Sveta);
-            //Sveta.SetChildren(Alex);
-            ////Andrey.SetChildren(Alex);
-            //Sergey.SetChildren(Andrey);
-            //Sergey.SetChildren(Anton);
-            //Sergey.SetChildren(Nastia);
-            ////Valentina.SetChildren(Andrey);
-            ////Valentina.SetChildren(Anton);
-            ////Valentina.SetChildren(Nastia);
-            //Nastia.SetChildren(Misha);
-            ////Dima.SetChildren(Misha);
-      
-            
+          
             Console.WriteLine("Person:" + Alex.GetName());
             Alex.PrintParents();
             Console.WriteLine('\n');
@@ -97,6 +80,8 @@ namespace Homework1
             Sergey_1.SetChildren(Sergey_2);
 
             Alex_1.SetParents(Sergey_2, Valentina_2);
+
+            Alex.SetChildren(Sergey);
         }
 
     }
